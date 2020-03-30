@@ -7,7 +7,7 @@ from tensorflow.keras.models import *
 from tensorflow.keras.regularizers import *
 from tensorflow.keras.optimizers import *
 
-from Models.structurer.MlpStructurer import MlpStructurer
+from ModelUtils.Models.structurer.MlpStructurer import MlpStructurer
 
 
 
@@ -16,6 +16,7 @@ from Models.structurer.MlpStructurer import MlpStructurer
 def create_custom_mlp(mlp_struct: MlpStructurer) -> Model:
     assert mlp_struct.nb_hidden_layers == len(
         mlp_struct.layers_size), "MlpStructurerError: MLP number of layers (nb_hidden_layers) is different of the total layers sizes number (layer_size) "
+    assert (mlp_struct.nb_classes > 0)
 
     model = Sequential()
     model.add(Flatten(input_shape=(32, 32, 3)))
@@ -43,14 +44,14 @@ def create_custom_mlp(mlp_struct: MlpStructurer) -> Model:
 
     # Output L1L2 regularisation
     if mlp_struct.use_l1l2_regularisation_output_layer:
-        model.add(Dense(10,
+        model.add(Dense(mlp_struct.nb_classes,
                         activation=mlp_struct.output_activation,
                         kernel_regularizer=L1L2(l1=mlp_struct.l1_value, l2=mlp_struct.l2_value),
                         name="output_l1l2"
                         )
                   )
     else:
-        model.add(Dense(10,
+        model.add(Dense(mlp_struct.nb_classes,
                         activation=mlp_struct.output_activation,
                         name="output"
                         )
@@ -119,6 +120,7 @@ def generateMlpModels(nb_hidden_layers_list: list,
     return mlp_models, mlp_descriptions
 
 def generateRandoMlpStruc(
+        nb_classes,
         use_l1l2_hidden=False,
         use_l1l2_output=False,
         use_dropout=False,
@@ -166,6 +168,7 @@ def generateRandoMlpStruc(
         l2_value = randint(5, 100) / 1000
 
     struct = MlpStructurer()
+    struct.nb_classes = nb_classes
     struct.nb_hidden_layers = nb_layers
     struct.layers_size = layers_size
     struct.layers_activation = choice(layers_activations)

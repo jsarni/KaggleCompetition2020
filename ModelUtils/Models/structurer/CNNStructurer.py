@@ -1,8 +1,10 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
+from .ModelName import CNN
 
 class CNNStructurer():
     def __init__(self):
-        self.name = "cnn"  # nom de la structure
+        self.name = CNN  # nom de la structure
+        self.nb_classes = 0
         self.nb_Conv2D_layers = 3  # nombre de couches cachées
         self.Conv2D_size_layers = [(32, 3), (32, 3), (64, 3)]  # [input,filter_dimension] dans l'appel on utilisera un couple ( filter_dimension,filter_dimension)
         self.Conv2D_activation = 'relu'

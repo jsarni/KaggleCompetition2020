@@ -5,7 +5,7 @@ from tensorflow.keras.models import *
 from tensorflow.keras.regularizers import *
 from tensorflow.keras.optimizers import *
 
-from Models.structurer.UNetStructurer import UNetStructurer
+from ModelUtils.Models.structurer.UNetStructurer import UNetStructurer
 
 ################################################################## Begining of UNet Part ##########################################################################################
 
@@ -62,7 +62,7 @@ def create_unet(unet_struct: UNetStructurer) -> Model:
         layers_list[j] = layers_list[j](avg_tensor)
 
     flatten_tensor = Flatten(name="flatten")(layers_list[-1])
-    output_tensor = Dense(10, activation=unet_struct.output_activation, name="output_dense")(flatten_tensor)
+    output_tensor = Dense(unet_struct.nb_classes, activation=unet_struct.output_activation, name="output_dense")(flatten_tensor)
 
     model = Model(input_tensor, output_tensor)
 
@@ -95,6 +95,7 @@ def getUNetStructAsString(unet_structurer: UNetStructurer) -> str:
                                                                                 unet_structurer.padding)
 
 def generateRandoUNetStruc(
+        nb_classes,
         use_maxpool=False,
         use_l1l2_hidden=False,
         use_l1l2_output=False,
@@ -139,6 +140,7 @@ def generateRandoUNetStruc(
 
     struct = UNetStructurer()
 
+    struct.nb_classes = nb_classes
     struct.nb_Conv2D_layers = nb_layers
     struct.filter = choice(filters)
     struct.kernel_size = choice(kernel_sizes)

@@ -4,7 +4,7 @@ from tensorflow.keras.models import *
 from tensorflow.keras.regularizers import *
 from tensorflow.keras.optimizers import *
 
-from Models.structurer.RsnetStructurer import RsnetStructurer
+from ModelUtils.Models.structurer.RsnetStructurer import RsnetStructurer
 
 
 def create_model_resenet34(RsnetStruct: RsnetStructurer) -> Model:
@@ -110,9 +110,9 @@ def create_model_resenet34(RsnetStruct: RsnetStructurer) -> Model:
 
     flattended_last_tensor = Flatten(name='flatten')(last_output_tensor)
     if (RsnetStruct.use_l1l2_regularisation_output_layer):
-        output_tensor = Dense(10,RsnetStruct.output_activation, kernel_regularizer=L1L2(l1=RsnetStruct.l1_value,l2=RsnetStruct.l2_value),name='dense_output_L1L2')(flattended_last_tensor)
+        output_tensor = Dense(RsnetStruct.nb_classes,RsnetStruct.output_activation, kernel_regularizer=L1L2(l1=RsnetStruct.l1_value,l2=RsnetStruct.l2_value),name='dense_output_L1L2')(flattended_last_tensor)
     else:
-        output_tensor = Dense(10, RsnetStruct.output_activation, name='dense_output')(flattended_last_tensor)
+        output_tensor = Dense(RsnetStruct.nb_classes, RsnetStruct.output_activation, name='dense_output')(flattended_last_tensor)
     model = Model(input_tensor, output_tensor)
 
     model.compile(loss=RsnetStruct.loss,
@@ -147,6 +147,7 @@ def getResetStructAsString(rsnet_structurer: RsnetStructurer) -> str:
                                                                                 rsnet_structurer.padding)
 
 def generateRandomRsnetStruc(
+        nb_classes,
         use_maxpool=False,
         use_l1l2_hidden=False,
         use_l1l2_output=False,
@@ -199,7 +200,7 @@ def generateRandomRsnetStruc(
     struct = RsnetStructurer()
 
 
-
+    struct.nb_classes = nb_classes
     struct.nb_hidden_layers = nb_hidden_layers
     struct.filters = choice(filters)
     struct.kernel_size = choice(kernel_sizes)

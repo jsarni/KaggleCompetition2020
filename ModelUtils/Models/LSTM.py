@@ -1,13 +1,14 @@
 from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
 
-from Models.structurer.LstmStructurer import LstmStructurer
+from ModelUtils.Models.structurer import LstmStructurer
 
 
 
 ################################################################## Beginin of MLP Part ##########################################################################################
 
 def create_lstm(lstm_struct: LstmStructurer) -> Model:
+    assert (lstm_struct.nb_classes > 0)
 
     input_tensor = Input((32, 96))
 
@@ -29,7 +30,7 @@ def create_lstm(lstm_struct: LstmStructurer) -> Model:
                        return_sequences=False
                        )(lstm_tensor)
 
-    output_tensor = Dense(10, activation=lstm_struct.output_activation, kernel_regularizer=lstm_struct.output_regularizer)(lstm_tensor)
+    output_tensor = Dense(lstm_struct.nb_classes, activation=lstm_struct.output_activation, kernel_regularizer=lstm_struct.output_regularizer)(lstm_tensor)
 
     model = Model(input_tensor, output_tensor)
 

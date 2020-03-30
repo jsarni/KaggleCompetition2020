@@ -1,0 +1,6 @@
+LINEAR_MODEL = 'linear_model'
+MLP = 'mlp'
+CNN = 'cnn'
+RESNET34 = 'resnet34'
+UNET = 'unet'
+LSTM = 'lstm'

@@ -1,13 +1,14 @@
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-from Models.structurer.CNNStructurer import *
+from ModelUtils.Models.structurer.CNNStructurer import *
 from tensorflow.keras import layers, models, Model
 from tensorflow.keras.regularizers import *
 
 
 
 def create_CNN_model(cnn_struct:CNNStructurer) -> Model:
-    assert (cnn_struct.nb_Conv2D_layers==len(cnn_struct.Conv2D_size_layers)), "CNNStructurerError: CNN number of layers  is different of the total layers sizes number "
+    assert (cnn_struct.nb_Conv2D_layers == len(cnn_struct.Conv2D_size_layers)), "CNNStructurerError: CNN number of layers  is different of the total layers sizes number "
+    assert (cnn_struct.nb_classes > 0)
 
     inputshape=(32,32,3)
     model = models.Sequential()
@@ -61,14 +62,14 @@ def create_CNN_model(cnn_struct:CNNStructurer) -> Model:
 
 
     if cnn_struct.use_l1l2_regularisation_output_layer:
-        model.add(layers.Dense(10,
+        model.add(layers.Dense(cnn_struct.nb_classes,
                         activation=cnn_struct.output_activation,
                         kernel_regularizer=L1L2(l1=cnn_struct.l1_value, l2=cnn_struct.l2_value),
                         name="output_l1l2"
                         )
                   )
     else:
-        model.add(layers.Dense(10,
+        model.add(layers.Dense(cnn_struct.nb_classes,
                         activation=cnn_struct.output_activation,
                         name="output"
                         )

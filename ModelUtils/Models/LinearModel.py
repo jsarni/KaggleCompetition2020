@@ -2,13 +2,15 @@ from tensorflow.keras.layers import *
 from tensorflow.keras.models import *
 from tensorflow.keras import Model
 
-from Models.structurer.LinearStructurer import LinearStructurer
+from ModelUtils.Models.structurer.LinearStructurer import LinearStructurer
 
 
-def create_lin_model(lin_struct: LinearStructurer) -> Model:
+def create_linear_model(lin_struct: LinearStructurer) -> Model:
+    assert (lin_struct.nb_classes > 0)
+
     model = Sequential()
-    model.add(Flatten(input_shape=(32, 32, 3)))
-    model.add(Dense(10, activation=lin_struct.output_activation))
+    model.add(Flatten(input_shape=lin_struct.input_shape))
+    model.add(Dense(lin_struct.nb_classes, activation=lin_struct.output_activation))
     model.compile(loss=lin_struct.loss, metrics=lin_struct.metrics)
     return model
 

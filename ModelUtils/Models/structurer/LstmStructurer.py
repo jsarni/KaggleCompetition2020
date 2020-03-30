@@ -1,8 +1,11 @@
+from .ModelName import LSTM
+
 class LstmStructurer:
 
     def __init__(self):
-        self.name = "lstm"
+        self.name = LSTM
         self.nb_layers = 3
+        self.nb_classes = 0
         self.units = 32
         self.activation = 'tanh'
         self.recurrent_activation = 'sigmoid'

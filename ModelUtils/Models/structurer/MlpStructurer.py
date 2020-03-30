@@ -1,10 +1,11 @@
-from tensorflow.keras.optimizers import *
+from .ModelName import MLP
 
 class MlpStructurer:
 
     def __init__(self):
-        self.name = "mlp"
+        self.name = MLP
         self.nb_hidden_layers = 0
+        self.nb_classes = 0
         self.layers_size = []
         self.layers_activation = 'relu'
         self.output_activation = 'softmax'
