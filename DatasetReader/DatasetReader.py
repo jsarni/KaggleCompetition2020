@@ -1,9 +1,12 @@
+import pathlib
+
 import pandas as pd
 import numpy as np
 import random
 import re
 from PIL import Image
 import glob
+import pickle
 from vars import *
 
 
@@ -86,3 +89,40 @@ def load_unsplitted_batch(batch_number):
 def load_splitted_batch(batch_number):
     batch_images, batch_labels = load_unsplitted_batch(batch_number)
     return split_batch_to_train_and_val(batch_images, batch_labels)
+
+def read_image_to_pickle(image_id):
+    image_path_root = '{}{}.*'.format(IMAGES_DIR, image_id)
+    image_path = glob.glob(image_path_root)[0]
+
+    pathlib.Path(PICKELED_IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+    pathlib.Path(PICKELED_IMAGES_DIR + '16\\').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(PICKELED_IMAGES_DIR + '32\\').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(PICKELED_IMAGES_DIR + '64\\').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(PICKELED_IMAGES_DIR + '128\\').mkdir(parents=True, exist_ok=True)
+    pathlib.Path(PICKELED_IMAGES_DIR + '256\\').mkdir(parents=True, exist_ok=True)
+
+
+    image = Image.open(image_path)
+
+    for new_size in [(256, 256), (128, 128), (64, 64), (32, 32), (16, 16)]:
+        current_size_dir = new_size[0]
+        new_pickeled_image_path = '{}{}\\{}'.format(PICKELED_IMAGES_DIR, current_size_dir, image_id)
+        r_image = image.resize(new_size)
+        r_image_np = np.array(r_image)
+        flattened_image = r_image_np.flatten()
+
+        with open(new_pickeled_image_path, 'wb') as pickled_image:
+            pickle.dump(flattened_image, pickled_image)
+
+def read_batch_images_to_pickle(batch_number):
+    batch_path = '{}{}{}'.format(BATCHES_DIR, BATCHES_FILES_ROOT, batch_number)
+    batch = pd.read_csv(batch_path)
+
+    images_ids = batch['image_id'].to_list()
+
+    nb_images = 1
+    total_images = len(images_ids)
+    for image in images_ids:
+        print("=====> image {} / {}".format(nb_images, total_images))
+        read_image_to_pickle(image)
+        nb_images += 1
