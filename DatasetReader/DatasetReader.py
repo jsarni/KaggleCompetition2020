@@ -1,5 +1,6 @@
 import pathlib
 
+import os
 import pandas as pd
 import numpy as np
 import random
@@ -200,6 +201,9 @@ def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
     test_images_ids_batches, test_images_labels_batches = split_to_batches(test_images_ids_list,
                                                                            test_images_labels_list, nb_test_batches)
 
+    if not os.path.exists(PICKELED_BACTHES_DIR + str(images_size)):
+        os.makedirs(PICKELED_BACTHES_DIR + str(images_size))
+
 
     for i in range(nb_train_batches):
         print("------------------------------------ Pickeling Train Batch {} on {} ------------------------------------".format(
@@ -230,6 +234,7 @@ def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
 
         cur_batch_images_path = "{}{}\\{}_test_images_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
         cur_batch_labels_path = "{}{}\\{}_test_labels_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
+
         with open(cur_batch_images_path, 'wb') as pickeled_batch_images:
             pickle.dump(xtest, pickeled_batch_images)
 
