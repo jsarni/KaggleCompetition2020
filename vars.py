@@ -3,10 +3,11 @@ IMAGES_DIR = DATASET_DIR + 'train\\'
 METADATA_FILE = DATASET_DIR + 'iwildcam2020_train_annotations.json'
 IMAGES_CATEGORIES_PATH = '..\\dataset\\all_shuffled_images_with_category.csv'
 IMAGE_CLASSES_REPRESENTATION = DATASET_DIR + 'all_shuffled_images_with_ytrain_representation.csv'
-BATCHES_DIR = '..\\dataset\\batches\\'
+BATCHES_DIR = '..\\..\\pickeled_dataset\\batches\\'
 BATCHES_FILES_ROOT = 'batch_'
 
-PICKELED_IMAGES_DIR = '..\\dataset\\pickeled_images\\'
+PICKELED_IMAGES_DIR = '..\\..\\pickeled_dataset\\pickeled_images\\'
+PICKELED_BACTHES_DIR = '..\\..\\pickeled_dataset\\pickeled_batches\\'
 
 TARGET_DIR = '..\\Target\\'
 LOGS_DIR = TARGET_DIR + 'logs\\'
