@@ -188,6 +188,8 @@ def reshape_images(pickeled_images_dataset_path, batch_path):
         nb += 1
 
 def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
+    print(
+        "********************************** Started Pickeling Batch {} - Image size is {} **********************************".format(batch_number, images_size))
 
     batch_images_ids_list, batchs_images_labels_list = read_batch_content(batch_number)
 
@@ -198,8 +200,6 @@ def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
     test_images_ids_batches, test_images_labels_batches = split_to_batches(test_images_ids_list,
                                                                            test_images_labels_list, nb_test_batches)
 
-    print(
-        "********************************************* Started Training model *********************************************")
 
     for i in range(nb_train_batches):
         print("------------------------------------ Pickeling Train Batch {} on {} ------------------------------------".format(
