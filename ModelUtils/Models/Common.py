@@ -2,8 +2,8 @@ import os
 from os.path import join, isdir
 from vars import *
 
-def generateModelID(model_name):
-    path_to_dir = LOGS_DIR + model_name
+def generateModelID(images_size, model_name):
+    path_to_dir = '{}{}\\{}'.format(LOGS_DIR, images_size, model_name)
     id = 1
     if os.path.exists(path_to_dir):
         dir_content = os.listdir(path_to_dir)

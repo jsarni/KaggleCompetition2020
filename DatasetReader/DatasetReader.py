@@ -214,8 +214,8 @@ def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
 
         xtrain, ytrain = load_batch(images_size, cur_batch_ids_list, cur_batch_labels_list)
 
-        cur_batch_images_path = "{}{}\\{}_train_images_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
-        cur_batch_labels_path = "{}{}\\{}_train_labels_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
+        cur_batch_images_path = "{}{}\\batch_{}_{}_train_images_{}".format(PICKELED_BACTHES_DIR, images_size, batch_number, images_size, i)
+        cur_batch_labels_path = "{}{}\\batch_{}_{}_train_labels_{}".format(PICKELED_BACTHES_DIR, images_size, batch_number, images_size, i)
         with open(cur_batch_images_path, 'wb') as pickeled_batch_images:
             pickle.dump(xtrain, pickeled_batch_images)
 
@@ -232,11 +232,23 @@ def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):
 
         xtest, ytest = load_batch(images_size, cur_batch_ids_list, cur_batch_labels_list)
 
-        cur_batch_images_path = "{}{}\\{}_test_images_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
-        cur_batch_labels_path = "{}{}\\{}_test_labels_{}".format(PICKELED_BACTHES_DIR, images_size, images_size, i)
+        cur_batch_images_path = "{}{}\\batch_{}_{}_test_images_{}".format(PICKELED_BACTHES_DIR, images_size, batch_number, images_size, i)
+        cur_batch_labels_path = "{}{}\\batch_{}_{}_test_labels_{}".format(PICKELED_BACTHES_DIR, images_size, batch_number, images_size, i)
 
         with open(cur_batch_images_path, 'wb') as pickeled_batch_images:
             pickle.dump(xtest, pickeled_batch_images)
 
         with open(cur_batch_labels_path, 'wb') as pickeled_batch_labels:
             pickle.dump(ytest, pickeled_batch_labels)
+
+def load_pickeled_batch(batch_type, dataset_part, batch_number, images_size):
+    batch_images_path = '{}{}\\batch_{}_{}_{}_images_{}'.format(PICKELED_BACTHES_DIR, images_size, dataset_part, images_size, batch_type, batch_number)
+    batch_labels_path = '{}{}\\batch_{}_{}_{}_labels_{}'.format(PICKELED_BACTHES_DIR, images_size, dataset_part, images_size, batch_type, batch_number)
+
+    with open(batch_images_path, 'rb') as i:
+        batch_images = pickle.load(i)
+
+    with open(batch_labels_path, 'rb') as l:
+        batch_labels = pickle.load(l)
+
+    return batch_images, batch_labels
