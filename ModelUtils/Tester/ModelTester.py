@@ -117,10 +117,9 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     fit_models_dir = '{}{}\\{}\\'.format(FIT_MODELS_DIR, model_type, images_size)
     images_dir = fit_models_dir
 
-    model_id = generateModelID(model_type)
+    model_id = generateModelID(images_size, model_type)
     model_name = '{}_{}_{}'.format(images_size, model_type, model_id)
     model_image = '{}{}.png'.format(images_dir, model_name)
-    model_test_results_image = '{}{}_test_results.png'.format(images_dir, model_name)
     log_name = '{}{}'.format(logs_dir, model_name)
     model_path_for_saving = '{}\\{}.h5'.format(fit_models_dir, model_name)
 
@@ -156,6 +155,7 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     with open("{}{}_history.csv".format(history_path, model_type), "a") as f:
         f.write(model_descr)
 
+    return model_name
 
 def test_model_batch(model_type, model, model_name, dataset_part, images_size, nb_test_batches):
     fit_models_dir = '{}{}\\{}\\'.format(FIT_MODELS_DIR, model_type, images_size)
