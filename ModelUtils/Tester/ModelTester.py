@@ -15,7 +15,7 @@ def train_model_images(model_type, model, model_description, batch_number, image
     images_dir = fit_models_dir
 
     model_id = generateModelID(model_type)
-    model_name = '{}_{}_{}'.format(images_size, model_type, model_id)
+    model_name = '{}_{}_{}_{}'.format(images_size, model_type, batch_number, model_id)
     model_image = '{}{}.png'.format(images_dir, model_name)
     model_test_results_image = '{}{}_test_results.png'.format(images_dir, model_name)
     log_name = '{}{}'.format(logs_dir, model_name)
@@ -118,10 +118,13 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     images_dir = fit_models_dir
 
     model_id = generateModelID(images_size, model_type)
-    model_name = '{}_{}_{}'.format(images_size, model_type, model_id)
+    model_name = '{}_{}_{}_{}'.format(images_size, model_type, dataset_part, model_id)
     model_image = '{}{}.png'.format(images_dir, model_name)
     log_name = '{}{}'.format(logs_dir, model_name)
     model_path_for_saving = '{}\\{}.h5'.format(fit_models_dir, model_name)
+
+    print(model_path_for_saving)
+    print(model_image)
 
     if save_image:
         if not os.path.exists(images_dir):
