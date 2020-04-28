@@ -19,7 +19,7 @@ def create_custom_mlp(mlp_struct: MlpStructurer) -> Model:
     assert (mlp_struct.nb_classes > 0)
 
     model = Sequential()
-    model.add(Flatten(input_shape=(32, 32, 3)))
+    model.add(Flatten(input_shape=mlp_struct.input_shape))
     if mlp_struct.use_dropout and 0 in mlp_struct.dropout_indexes:
         model.add(Dropout(mlp_struct.dropout_value, name="dropout_input"))
 
@@ -76,7 +76,7 @@ def generateMlpModels(nb_hidden_layers_list: list,
                           regulization_indexes_list: list,
                           loss_list: list,
                           optimizer_list: list,
-                          metrics_list: list) -> (list[Model], list[str]):
+                          metrics_list: list):
     assert len(nb_hidden_layers_list) == len(layers_size_list)
     assert len(nb_hidden_layers_list) == len(layers_activation_list)
     assert len(nb_hidden_layers_list) == len(output_activation_list)
@@ -128,7 +128,7 @@ def generateRandoMlpStruc(
         min_nb_layers=5,
         max_nb_layers=40,
         min_layer_depth=32,
-        max_layer_depth=512) -> MlpStructurer:
+        max_layer_depth=512):
     layers_activations = ['softmax', 'relu', 'softplus', 'selu']
     output_activations = ['softmax']
     metrics = [['sparse_categorical_accuracy']]
@@ -187,7 +187,7 @@ def generateRandoMlpStruc(
 
     return struct
 
-def getMlpStructAsString(mlp_structurer) -> str:
+def getMlpStructAsString(mlp_structurer):
     return "{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{};{}".format(mlp_structurer.nb_hidden_layers,
                                                                     " ".join([str(i) for i in mlp_structurer.layers_size]),
                                                                     mlp_structurer.layers_activation,
@@ -206,7 +206,7 @@ def getMlpStructAsString(mlp_structurer) -> str:
                                                                     mlp_structurer.optimizer.__class__.__name__,
                                                                     " ".join(mlp_structurer.metrics)
                                                                     )
-def generateStructsFromCSV(file: str) -> list[MlpStructurer]:
+def generateStructsFromCSV(file: str):
     structs_descriptions = pd.read_csv(file, sep=';')
     structs_descriptions = structs_descriptions.sort_values('nb_couches', ascending=True)
     structs = []

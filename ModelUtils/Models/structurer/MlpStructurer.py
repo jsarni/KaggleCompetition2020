@@ -7,6 +7,7 @@ class MlpStructurer:
         self.nb_hidden_layers = 0
         self.nb_classes = 0
         self.layers_size = []
+        self.input_shape = (16, 16, 3)
         self.layers_activation = 'relu'
         self.output_activation = 'softmax'
         self.use_dropout = False

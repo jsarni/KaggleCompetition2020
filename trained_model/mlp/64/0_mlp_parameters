@@ -1,0 +1,2 @@
+0_64_mlp_0_3;5 layers; 32 par couche; epochs=2000; sparse_categorical_crossentropy;adam;sparse_categorical_accuracy; validation_split=0.2;seed=default
+0_64_mlp_0_4;5 layers; 96 par couche; epochs=500; sparse_categorical_crossentropy;adam;sparse_categorical_accuracy; validation_split=0.2;seed=default

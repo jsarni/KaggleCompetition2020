@@ -1,0 +1,10 @@
+0_16_linear_model_0_2;epochs=1000;validation_split=0.2;seed=default
+0_16_linear_model_0_3;epochs=2000;validation_split=0.2;seed=1
+0_16_linear_model_0_4;epochs=4000;validation_split=0.2;seed=1
+0_16_linear_model_0_5;epochs=8000;validation_split=0.2;seed=1
+0_16_linear_model_0_6;epochs=2000;validation_split=0.2;seed=10
+0_16_linear_model_0_7;epochs=4000;validation_split=0.2;seed=10
+0_16_linear_model_0_8;epochs=8000;validation_split=0.2;seed=10
+0_16_linear_model_0_9;epochs=2000;validation_split=0.2;seed=50
+0_16_linear_model_0_10;epochs=4000;validation_split=0.2;seed=50
+0_16_linear_model_0_11;epochs=8000;validation_split=0.2;seed=50
