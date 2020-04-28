@@ -1,4 +1,5 @@
-DATASET_DIR = '..\\..\\dataset\\'
+
+DATASET_DIR = '..\\..\\iwildcam2020\\'
 IMAGES_DIR = DATASET_DIR + 'train\\'
 METADATA_FILE = DATASET_DIR + 'iwildcam2020_train_annotations.json'
 IMAGES_CATEGORIES_PATH = '..\\dataset\\all_shuffled_images_with_category.csv'

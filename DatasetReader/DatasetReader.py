@@ -4,10 +4,15 @@ import pandas as pd
 import numpy as np
 import random
 import re
-from PIL import Image
+from PIL import Image,ImageFile
 import glob
 import pickle
+
+
+
 from vars import *
+
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 
 def split_dataset():
