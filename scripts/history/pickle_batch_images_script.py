@@ -1,4 +1,4 @@
-from DatasetReader.DatasetReader import *
+from DatasetReader.DatasetReader_merzouk import *
 
 if __name__ == '__main__':
     batch_number = 0 ## Ne pas oublier de modifier

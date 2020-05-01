@@ -1,6 +1,6 @@
 import os
 from os.path import join, isdir
-from vars import *
+from vars_merzouk import *
 
 def generateModelID(images_size, model_name):
     path_to_dir = '{}{}\\{}'.format(LOGS_DIR, model_name, images_size)

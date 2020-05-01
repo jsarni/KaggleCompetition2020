@@ -1,4 +1,4 @@
-from DatasetReader.DatasetPreparation import *
+from DatasetReader.DatasetPreparation_merzouk import *
 
 if __name__ == '__main__':
     print("------------------------------ Preparing Dataset ------------------------------")
