@@ -57,6 +57,7 @@ def train_model_images(model_type, model, model_description, batch_number, image
 
     print("********************************************* Started Testing model *********************************************")
     nb_finished_batches = 0
+    nb_finished_batches = 0
     test_batches_results = []
 
     for i in range(nb_test_batches):

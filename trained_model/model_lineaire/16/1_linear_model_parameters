@@ -1,0 +1,2 @@
+1_16_linear_model_1_3;epochs=4000;validation_split=0.2;seed=default
+1_16_linear_model_1_7;epochs=8000;validation_split=0.2;seed=default

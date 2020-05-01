@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import random
 import pathlib
-from vars import *
+from varsMatthieu import *
 
 def prepare_train_labels_for_images_classes():
     path = METADATA_FILE
