@@ -177,7 +177,7 @@ def reshape_images(pickeled_images_dataset_path, batch_path):
     nb = 1
     for id in images_ids:
         print(nb)
-        if nb > 29012:
+        if nb > 0:
             for s in [256, 128, 64, 32, 16]:
                 with open('{}{}\\{}'.format(pickeled_images_dataset_path, s, id), 'rb') as o:
                     old = pickle.load(o)
