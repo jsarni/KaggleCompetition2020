@@ -7,7 +7,7 @@ BATCHES_DIR                  = '..\\dataset\\'
 BATCHES_FILES_ROOT           = 'batch_'
 
 PICKELED_IMAGES_DIR          = '..\\..\\pickeled_images\\'
-PICKELED_BACTHES_DIR         = '..\\..\\pickeled_images\\'
+PICKELED_BACTHES_DIR         = '..\\..\\pickeled_batches\\'
 
 TARGET_DIR                   = '..\\Target\\'
 LOGS_DIR                     = TARGET_DIR + 'logs\\'

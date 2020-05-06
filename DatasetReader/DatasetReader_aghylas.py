@@ -177,15 +177,15 @@ def reshape_images(pickeled_images_dataset_path, batch_path):
     nb = 1
     for id in images_ids:
         print(nb)
-        if nb > 29012:
-            for s in [256, 128, 64, 32, 16]:
-                with open('{}{}\\{}'.format(pickeled_images_dataset_path, s, id), 'rb') as o:
-                    old = pickle.load(o)
+        # if nb > 29012:
+        for s in [256, 128, 64, 32, 16]:
+            with open('{}{}\\{}'.format(pickeled_images_dataset_path, s, id), 'rb') as o:
+                old = pickle.load(o)
 
-                newim = old.reshape((s, s, 3))
+            newim = old.reshape((s, s, 3))
 
-                with open('{}{}\\{}'.format(pickeled_images_dataset_path, s, id), 'wb') as n:
-                    pickle.dump(newim, n)
+            with open('{}{}\\{}'.format(pickeled_images_dataset_path, s, id), 'wb') as n:
+                pickle.dump(newim, n)
         nb += 1
 
 def pickle_batch(batch_number, images_size, nb_train_batches, nb_test_batches):

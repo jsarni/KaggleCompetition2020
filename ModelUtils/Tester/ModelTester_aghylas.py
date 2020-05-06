@@ -117,7 +117,7 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     fit_models_dir = '{}{}\\{}\\'.format(FIT_MODELS_DIR, model_type, images_size)
     images_dir = fit_models_dir
 
-    model_id = generateModelID(images_size, model_type)
+    model_id = generateModelID( model_type)
     model_name = '{}_{}_{}_{}'.format(images_size, model_type, dataset_part, model_id)
     model_image = '{}{}.png'.format(images_dir, model_name)
     log_name = '{}{}'.format(logs_dir, model_name)
@@ -129,7 +129,7 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     if save_image:
         if not os.path.exists(images_dir):
             os.makedirs(images_dir)
-        plot_model(model, model_image)
+        # plot_model(model, model_image)
 
     print("********************************************* Started Training model *********************************************")
 
