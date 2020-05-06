@@ -13,6 +13,7 @@ TEST_IMAGES_DIR = '..\\..\\pickeled_dataset\\pickeled_test_images\\'
 TEST_BACTH_FILE = BATCHES_DIR + 'batch_test'
 
 TARGET_DIR = '..\\Target\\'
+TRAINED_MODEL_DIR = '..\\trained_model\\'
 LOGS_DIR = TARGET_DIR + 'logs\\'
 FIT_MODELS_DIR = TARGET_DIR + 'saved_models\\'
 TRAIN_HYSTORY_DIR = TARGET_DIR + 'train_history\\'
