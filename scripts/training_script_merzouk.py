@@ -8,9 +8,9 @@ from tensorflow.compat.v1 import set_random_seed
 from tensorflow.keras.backend import clear_session
 
 if __name__ == '__main__':
-    images_size = 16
+    images_size = 64
     my_batch = 3
-    nb_train_batches = 1
+    nb_train_batches = 2
     nb_test_batches = 1
     validation_split = 0.2
     epochs = 500
@@ -25,11 +25,13 @@ if __name__ == '__main__':
         description = getMlpStructAsString(mlp_struct)
         model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
                                             nb_test_batches, validation_split, epochs)
-        test_model_batch(MLP, model, model_name_root, 0, 16, 1)
+        test_model_batch(MLP, model, model_name_root, 3, images_size, 1)
         epochs = epochs * 2
         clear_session()
 
-    images_size = 32
+    images_size = 128
+    nb_train_batches = 5
+    nb_test_batches = 2
     epochs = 500
     for i in range(3):
         mlp_struct = MlpStructurer()
@@ -41,56 +43,57 @@ if __name__ == '__main__':
         description = getMlpStructAsString(mlp_struct)
         model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
                                             nb_test_batches, validation_split, epochs)
-        test_model_batch(MLP, model, model_name_root, 0, images_size, 1)
+        test_model_batch(MLP, model, model_name_root, 3, images_size, 1)
         epochs = epochs * 2
         clear_session()
 
-    epochs = 500
-    for i in range(3):
-        mlp_struct = MlpStructurer()
-        mlp_struct.nb_hidden_layers = 5
-        mlp_struct.nb_classes = 572
-        mlp_struct.input_shape = (images_size, images_size, 3)
-        mlp_struct.layers_size = [96, 96, 96, 96, 96]
-        model = create_custom_mlp(mlp_struct)
-        description = getMlpStructAsString(mlp_struct)
-        model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
-                                            nb_test_batches, validation_split, epochs)
-        test_model_batch(MLP, model, model_name_root, 0, images_size, 1)
-        epochs = epochs * 2
-        clear_session()
-
-    images_size = 64
-    epochs = 500
-    for i in range(3):
-        mlp_struct = MlpStructurer()
-        mlp_struct.nb_hidden_layers = 5
-        mlp_struct.nb_classes = 572
-        mlp_struct.input_shape = (images_size, images_size, 3)
-        mlp_struct.layers_size = [32, 32, 32, 32, 32]
-        model = create_custom_mlp(mlp_struct)
-        description = getMlpStructAsString(mlp_struct)
-        model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
-                                            nb_test_batches, validation_split, epochs)
-        test_model_batch(MLP, model, model_name_root, 0, images_size, 1)
-        epochs = epochs * 2
-        clear_session()
-
-    epochs = 500
-    for i in range(3):
-        mlp_struct = MlpStructurer()
-        mlp_struct.nb_hidden_layers = 5
-        mlp_struct.nb_classes = 572
-        mlp_struct.input_shape = (images_size, images_size, 3)
-        mlp_struct.layers_size = [96, 96, 96, 96, 96]
-        model = create_custom_mlp(mlp_struct)
-        description = getMlpStructAsString(mlp_struct)
-        model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
-                                            nb_test_batches, validation_split, epochs)
-        test_model_batch(MLP, model, model_name_root, 0, images_size, 1)
-        epochs = epochs * 2
-        clear_session()
+    # images_size = 256
+    # epochs = 500
     # for i in range(3):
+    #     mlp_struct = MlpStructurer()
+    #     mlp_struct.nb_hidden_layers = 5
+    #     mlp_struct.nb_classes = 572
+    #     mlp_struct.input_shape = (images_size, images_size, 3)
+    #     mlp_struct.layers_size = [64, 64, 64, 64, 64]
+    #     model = create_custom_mlp(mlp_struct)
+    #     description = getMlpStructAsString(mlp_struct)
+    #     model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
+    #                                         nb_test_batches, validation_split, epochs)
+    #     test_model_batch(MLP, model, model_name_root, 3, images_size, 1)
+    #     epochs = epochs * 2
+    #     clear_session()
+    #
+    #
+    # epochs = 500
+    # for i in range(3):
+    #     mlp_struct = MlpStructurer()
+    #     mlp_struct.nb_hidden_layers = 5
+    #     mlp_struct.nb_classes = 572
+    #     mlp_struct.input_shape = (images_size, images_size, 3)
+    #     mlp_struct.layers_size = [32, 32, 32, 32, 32]
+    #     model = create_custom_mlp(mlp_struct)
+    #     description = getMlpStructAsString(mlp_struct)
+    #     model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
+    #                                         nb_test_batches, validation_split, epochs)
+    #     test_model_batch(MLP, model, model_name_root, 3, images_size, 1)
+    #     epochs = epochs * 2
+    #     clear_session()
+    #
+    # epochs = 500
+    # for i in range(3):
+    #     mlp_struct = MlpStructurer()
+    #     mlp_struct.nb_hidden_layers = 5
+    #     mlp_struct.nb_classes = 572
+    #     mlp_struct.input_shape = (images_size, images_size, 3)
+    #     mlp_struct.layers_size = [96, 96, 96, 96, 96]
+    #     model = create_custom_mlp(mlp_struct)
+    #     description = getMlpStructAsString(mlp_struct)
+    #     model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
+    #                                         nb_test_batches, validation_split, epochs)
+    #     test_model_batch(MLP, model, model_name_root, 3, images_size, 1)
+    #     epochs = epochs * 2
+    #     clear_session()
+    # # for i in range(3):
     #     mlp_struct = MlpStructurer()
     #     mlp_struct.nb_hidden_layers = 5
     #     mlp_struct.nb_classes = 572

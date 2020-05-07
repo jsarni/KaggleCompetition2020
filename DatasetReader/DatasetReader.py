@@ -105,6 +105,7 @@ def read_batch_images_to_pickle(batch_number):
     batch = pd.read_csv(batch_path)
 
     images_ids = batch['image_id'].to_list()
+    images_ids = ['8fd080e6-21bc-11ea-a13a-137349068a90']
 
     nb_images = 1
     total_images = len(images_ids)
