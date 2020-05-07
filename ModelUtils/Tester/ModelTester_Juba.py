@@ -200,28 +200,25 @@ def test_model_batch(model_type, model, model_name, dataset_part, images_size, n
     plt.scatter(batches, accuracies, c='blue')
     plt.savefig(model_test_results_image)
 
-def predict_on_test_images(model_type, model, model_name, images_size):
+def predict_on_test_images(model_type, model, model_name, images_size, starting_image):
 
     images_ids = pd.read_csv(TEST_BACTH_FILE)['id'].tolist()
-    predictions_folder = '{}{}\\{}\\'.format(PREDICTIONS_DIR, model_type, images_size)
-    prediction_file_path = '{}{}\\{}\\prediction_{}.csv'.format(PREDICTIONS_DIR, model_type, images_size, model_name.split('.')[0])
-
-    if not os.path.exists(predictions_folder):
-        os.makedirs(predictions_folder)
-
+    prediction_file_path = '{}{}\\{}\\prediction_{}.csv'.format(PREDICTIONS_DIR, model_type, images_size, model_name)
     with open(prediction_file_path, 'w') as prediction_file:
-        prediction_file.write('Id,Category')
+        prediction_file.write('Id,Category\n')
 
-    predictions = open(prediction_file_path, 'a')
     nb_predicted = 0
     for image_id in images_ids:
-        nb_predicted += 1
-        print('=====> predicting image ', nb_predicted)
-        image_to_predict_path = '{}{}\\{}'.format(TEST_IMAGES_DIR, images_size, image_id)
-        with open(image_to_predict_path, 'rb') as f:
-            image_to_predict = pickle.load(f)
+        print('=====> predicting image {} : {}'.format(nb_predicted, image_id))
+        if nb_predicted >= starting_image:
+            image_to_predict_path = '{}{}\\{}'.format(TEST_IMAGES_DIR, images_size, image_id)
+            with open(image_to_predict_path, 'rb') as f:
+                image_to_predict = pickle.load(f)
 
-        result = model.predict(np.array([image_to_predict]))
-        predictions.write('{},{}'.format(image_id, result))
+            result = np.argmax(model.predict(np.array([image_to_predict])))
 
-    predictions.close()
+            with open(prediction_file_path, 'a') as prediction_file:
+                prediction_file.write('{},{}\n'.format(image_id, result))
+            nb_predicted += 1
+
+
