@@ -12,7 +12,7 @@ if __name__ == '__main__':
     nb_train_batches = 1
     nb_test_batches = 1
     validation_split = 0.2
-    epochs = 1000
+    epochs = 4000
 
     batch_size = 4096
 
@@ -23,22 +23,22 @@ if __name__ == '__main__':
     # validation_split = 0.2
     # epochs = 1000
 
-    # for i in range(3):
-    #     linear_model_struct = LinearStructurer()
-    #     linear_model_struct.nb_classes = 572
-    #     linear_model_struct.input_shape = (images_size, images_size, 3)
-    #     model = create_linear_model(linear_model_struct)
-    #     description = getLinStructAsString(linear_model_struct)
+    for i in range(3):
+        linear_model_struct = LinearStructurer()
+        linear_model_struct.nb_classes = 572
+        linear_model_struct.input_shape = (images_size, images_size, 3)
+        model = create_linear_model(linear_model_struct)
+        description = getLinStructAsString(linear_model_struct)
 
-        # model_path = '{}{}\\{}\\'.format(FIT_MODELS_DIR, LINEAR_MODEL, images_size)
-        # model_name = "16_linear_model_2.h5"
-        # model = load_saved_model(model_path, model_name)
+        model_path = '{}{}\\{}\\'.format(FIT_MODELS_DIR, LINEAR_MODEL, images_size)
+        model_name = "0_1_16_linear_model_1_8.h5"
+        model = load_saved_model(model_path, model_name)
 
-        # model_name_root = train_model_batch(LINEAR_MODEL, model, description, my_batch, images_size, nb_train_batches,nb_test_batches, validation_split, epochs, batch_size=batch_size)
-        # test_model_batch(LINEAR_MODEL, model, model_name_root, 0, images_size, 1)
-        # epochs = epochs * 2
-        # clear_session()
-    #     #
+        model_name_root = train_model_batch(LINEAR_MODEL, model, description, my_batch, images_size, nb_train_batches,nb_test_batches, validation_split, epochs, batch_size=batch_size)
+        test_model_batch(LINEAR_MODEL, model, model_name_root, my_batch, images_size, 1)
+        epochs = epochs * 2
+        clear_session()
+        #
     # images_size = 64
     # nb_train_batches = 2
     # nb_test_batches = 1
@@ -109,23 +109,23 @@ if __name__ == '__main__':
     #     clear_session()
 
     images_size = 64
-    nb_train_batches = 1
-    nb_test_batches = 1
-    epochs = 500
-    batch_size = 2048
-    for i in range(3):
-        mlp_struct = MlpStructurer()
-        mlp_struct.nb_hidden_layers = 5
-        mlp_struct.nb_classes = 572
-        mlp_struct.input_shape = (images_size, images_size, 3)
-        mlp_struct.layers_size = [32, 32, 32, 32, 32]
-        model = create_custom_mlp(mlp_struct)
-        description = getMlpStructAsString(mlp_struct)
-        model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
-                                            nb_test_batches, validation_split, epochs, batch_size=batch_size)
-        test_model_batch(MLP, model, model_name_root, my_batch, images_size, nb_test_batches)
-        epochs = epochs * 2
-        clear_session()
+    # nb_train_batches = 1
+    # nb_test_batches = 1
+    # epochs = 500
+    # batch_size = 2048
+    # for i in range(3):
+    #     mlp_struct = MlpStructurer()
+    #     mlp_struct.nb_hidden_layers = 5
+    #     mlp_struct.nb_classes = 572
+    #     mlp_struct.input_shape = (images_size, images_size, 3)
+    #     mlp_struct.layers_size = [32, 32, 32, 32, 32]
+    #     model = create_custom_mlp(mlp_struct)
+    #     description = getMlpStructAsString(mlp_struct)
+    #     model_name_root = train_model_batch(MLP, model, description, my_batch, images_size, nb_train_batches,
+    #                                         nb_test_batches, validation_split, epochs, batch_size=batch_size)
+    #     test_model_batch(MLP, model, model_name_root, my_batch, images_size, nb_test_batches)
+    #     epochs = epochs * 2
+    #     clear_session()
     #
     # epochs = 500
     # for i in range(3):
