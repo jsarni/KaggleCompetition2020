@@ -8,7 +8,7 @@ if __name__ == '__main__':
 
     model_type = LINEAR_MODEL
     images_size = 16
-    starting_pos = 16295
+    starting_pos = 44939
 
     predict_on_test_images(model_type, model, model_name, images_size, starting_pos)
     #

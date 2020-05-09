@@ -204,8 +204,10 @@ def predict_on_test_images(model_type, model, model_name, images_size, starting_
 
     images_ids = pd.read_csv(TEST_BACTH_FILE)['id'].tolist()
     prediction_file_path = '{}{}\\{}\\prediction_{}.csv'.format(PREDICTIONS_DIR, model_type, images_size, model_name)
-    #with open(prediction_file_path, 'w') as prediction_file:
-    #    prediction_file.write('Id,Category\n')
+
+    if (not os.path.exists(prediction_file_path)):
+        with open(prediction_file_path, 'w') as prediction_file:
+           prediction_file.write('Id,Category\n')
 
     nb_predicted = 0
     for image_id in images_ids:
