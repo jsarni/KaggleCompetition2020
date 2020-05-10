@@ -6,10 +6,10 @@ class RsnetStructurer:
         self.name = RESNET34
         self.kernel_size = (3, 3)
         self.nb_classes = 0
-        self.filters = 64
+        self.filters = 32
         self.batch_size = 128
         self.input_shape = (32, 32, 3)
-        self.nb_hidden_layers = 7
+        self.nb_hidden_layers = 3
         self.layers_activation = 'relu'
         self.output_activation = 'softmax'
         self.padding = "same"

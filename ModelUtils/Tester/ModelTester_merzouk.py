@@ -1,3 +1,5 @@
+import gc
+
 from tensorflow.keras.callbacks import TensorBoard
 from ModelUtils.Models.Common import generateModelID
 from datetime import date
@@ -5,7 +7,10 @@ from tensorflow.keras.utils import plot_model
 from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 from DatasetReader.DatasetReader_merzouk import *
+from tensorflow.keras.preprocessing import image
 import os
+from time import sleep
+
 
 
 def train_model_images(model_type, model, model_description, batch_number, images_size, nb_train_batches, nb_test_batches, validation_split, epochs, batch_size=4096, save_model=True, save_image=True):
@@ -111,7 +116,7 @@ def load_saved_model(model_dir, model_name):
     model_path = model_dir + model_name
     return load_model(model_path)
 
-def train_model_batch(model_type, model, model_description, dataset_part, images_size, nb_train_batches, nb_test_batches, validation_split, epochs, batch_size=4096, save_model=True, save_image=True):
+def train_model_batch(model_type, model, model_description, dataset_part, images_size, nb_train_batches, nb_test_batches, validation_split, epochs, batch_size = 4096, save_model=True, save_image=True):
     cur_date = date.today().strftime("%Y%m%d")
     logs_dir = '{}{}\\{}\\'.format(LOGS_DIR, model_type, images_size)
     fit_models_dir = '{}{}\\{}\\'.format(FIT_MODELS_DIR, model_type, images_size)
@@ -140,7 +145,9 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
         print("------------------- Started Loading Batch Data -------------------")
         xtrain, ytrain = load_pickeled_batch('train', dataset_part, i, images_size)
 
+
         print("------------------- Finished Loading Data and starting Training -------------------")
+
         fit_model_on_batch(model, xtrain, ytrain, validation_split, epochs, batch_size, log_name)
         nb_finished_batches += 1
 
@@ -198,3 +205,46 @@ def test_model_batch(model_type, model, model_name, dataset_part, images_size, n
     plt.grid(True)
     plt.scatter(batches, accuracies, c='blue')
     plt.savefig(model_test_results_image)
+
+
+
+
+
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+
+images_ids = pd.read_csv(TEST_BACTH_FILE)['id'].tolist()
+images_ids_parts = list(chunks(images_ids, 3000))
+
+
+def predict_on_test_images(model_type, model, model_name, images_size, starting_image,images_ids):
+
+
+    prediction_file_path = '{}{}\\{}\\prediction_{}.csv'.format(PREDICTIONS_DIR, model_type, images_size, model_name)
+
+    if (not os.path.exists(prediction_file_path)):
+        with open(prediction_file_path, 'w') as prediction_file:
+           prediction_file.write('Id,Category\n')
+
+
+    nb_predicted = 0
+    for image_id in images_ids:
+        print('=====> predicting image {} : {}'.format(nb_predicted, image_id))
+        if nb_predicted >= starting_image:
+            image_to_predict_path = '{}{}\\{}'.format(TEST_IMAGES_DIR, images_size, image_id)
+            with open(image_to_predict_path, 'rb') as f:
+                image_to_predict = pickle.load(f)
+
+            result = np.argmax(model.predict(np.array([image_to_predict])))
+
+            with open(prediction_file_path, 'a') as prediction_file:
+                prediction_file.write('{},{}\n'.format(image_id, result))
+        nb_predicted += 1
+
+
+
+
+
