@@ -221,3 +221,4 @@ def predict_on_test_images(model_type, model, model_name, images_size, starting_
             with open(prediction_file_path, 'a') as prediction_file:
                 prediction_file.write('{},{}\n'.format(image_id, result))
             nb_predicted += 1
+    prediction_file.close()
