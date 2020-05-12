@@ -1,4 +1,4 @@
-from ModelUtils.Tester.ModelTester_Juba import *
+from ModelUtils.Tester.ModelTester_matthieu import *
 from ModelUtils.Models.structurer.ModelName import *
 
 if __name__ == '__main__':
@@ -10,7 +10,12 @@ if __name__ == '__main__':
     images_size = 16
     starting_pos = 0
 
-    predict_on_test_images(model_type, model, model_name, images_size, starting_pos)
+    predict_path = '{}{}\\{}\\'.format(PREDICTIONS_DIR, model_type, images_size, model_name)
+    if not os.path.exists(predict_path):
+        os.makedirs(predict_path)
+
+    predict_on_test_images(model_type, model, model_name, images_size,starting_pos)
+
     #
     #
     # model_name = "0_16_linear_model_0_4.h5"

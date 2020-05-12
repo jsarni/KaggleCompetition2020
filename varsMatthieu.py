@@ -9,7 +9,7 @@ BATCHES_FILES_ROOT = 'batch_'
 PICKELED_IMAGES_DIR = 'C:\\Users\\matt_\\Documents\\IABD4\\Deep Learning\\Kaggle Wildcam\\pickeled_images\\'
 PICKELED_BACTHES_DIR = 'C:\\Users\matt_\\Documents\\IABD4\\Deep Learning\\Kaggle Wildcam\\pickeled_dataset\\pickeled_batches\\'
 
-TEST_IMAGES_DIR = '..\\..\\pickeled_dataset\\pickeled_test_images\\'
+TEST_IMAGES_DIR = '..\\..\\pickeled_dataset\\test\\'
 TEST_BACTH_FILE = BATCHES_DIR + 'batch_test'
 
 TARGET_DIR = '..\\Target\\'
