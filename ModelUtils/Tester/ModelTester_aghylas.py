@@ -1,11 +1,13 @@
 from tensorflow.keras.callbacks import TensorBoard
-from ModelUtils.Models.Common_aghylas import generateModelID
+from ModelUtils.Models.Common import generateModelID
 from datetime import date
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
 from DatasetReader.DatasetReader_aghylas import *
+from tensorflow.keras.preprocessing import image
 import os
+import time
 
 
 def train_model_images(model_type, model, model_description, batch_number, images_size, nb_train_batches, nb_test_batches, validation_split, epochs, batch_size=4096, save_model=True, save_image=True):
@@ -117,7 +119,7 @@ def train_model_batch(model_type, model, model_description, dataset_part, images
     fit_models_dir = '{}{}\\{}\\'.format(FIT_MODELS_DIR, model_type, images_size)
     images_dir = fit_models_dir
 
-    model_id = generateModelID( model_type)
+    model_id = generateModelID( model_type,images_size)
     model_name = '{}_{}_{}_{}'.format(images_size, model_type, dataset_part, model_id)
     model_image = '{}{}.png'.format(images_dir, model_name)
     log_name = '{}{}'.format(logs_dir, model_name)
@@ -198,3 +200,39 @@ def test_model_batch(model_type, model, model_name, dataset_part, images_size, n
     plt.grid(True)
     plt.scatter(batches, accuracies, c='blue')
     plt.savefig(model_test_results_image)
+
+def chunks(lst, n):
+    """Yield successive n-sized chunks from lst."""
+    for i in range(0, len(lst), n):
+        yield lst[i:i + n]
+
+
+images_ids = pd.read_csv(TEST_BACTH_FILE)['id'].tolist()
+images_ids_parts = list(chunks(images_ids, 3000))
+
+
+def predict_on_test_images(model_type, model, model_name, images_size, starting_image,images_ids):
+
+
+    prediction_file_path = '{}{}\\{}\\prediction_{}.csv'.format(PREDICTIONS_DIR, model_type, images_size, model_name)
+
+    if (not os.path.exists(prediction_file_path)):
+        with open(prediction_file_path, 'w') as prediction_file:
+           prediction_file.write('Id,Category\n')
+
+    t0=time.time()
+    nb_predicted = 0
+    for image_id in images_ids:
+        print('=====> predicting image {} : {}'.format(nb_predicted, image_id))
+        if nb_predicted >= starting_image:
+            image_to_predict_path = '{}{}\\{}'.format(TEST_IMAGES_DIR, images_size, image_id)
+            with open(image_to_predict_path, 'rb') as f:
+                image_to_predict = pickle.load(f)
+                img=image.img_to_array(image_to_predict)
+            result = np.argmax(model.predict(np.array([img])))
+
+            with open(prediction_file_path, 'a') as prediction_file:
+                prediction_file.write('{},{}\n'.format(image_id, result))
+        nb_predicted += 1
+    print(time.time()-t0)
+

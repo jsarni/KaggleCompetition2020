@@ -1,0 +1,2 @@
+batch;img_size;nb_layers_conv;layer_kernel_filter;conv_activation;output_activation;padding;Use_maxpooling;maxp_kernel;maxp_pos;use_droput;pos_droput;val_droput;use_regul;use_regul_output;l1;l2;regul_pos;loss;optimazer;metrics;epochs;;date
+2;32;5;(32, 3) (32, 3) (32, 3) (32, 3) (32, 3);selu;softmax;same;True;3;1 3;True;0;0.025;True;False;0.012;0.02;1 4;sparse_categorical_crossentropy;Adam;sparse_categorical_accuracy;100;1;20200514

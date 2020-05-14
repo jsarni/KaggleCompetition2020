@@ -6,11 +6,11 @@ from tensorflow.keras.regularizers import *
 
 
 
-def create_CNN_model(cnn_struct:CNNStructurer) -> Model:
+def create_CNN_model(cnn_struct:CNNStructurer,image_size) -> Model:
     assert (cnn_struct.nb_Conv2D_layers == len(cnn_struct.Conv2D_size_layers)), "CNNStructurerError: CNN number of layers  is different of the total layers sizes number "
     assert (cnn_struct.nb_classes > 0)
 
-    inputshape=(32,32,3)
+    inputshape=(image_size,image_size,3)
     model = models.Sequential()
     if cnn_struct.use_l1l2_regularisation_Convolution_layers and (0 in cnn_struct.regul_kernel_indexes):
         model.add(layers.Conv2D(cnn_struct.Conv2D_size_layers[0][0]
@@ -100,7 +100,8 @@ def generateCNNModels(    nb_Conv2D_layers_list: list,
                           regulization_indexes_list: list,
                           loss_list: list,
                           optimizer_list: list,
-                          metrics_list: list) -> (list[Model], list[str]):
+                          metrics_list: list,
+                          image_size:int):
     assert len(nb_Conv2D_layers_list) == len(Conv2D_layers_size_list)
     assert len(nb_Conv2D_layers_list) == len(Conv2D_activation_list)
     assert len(nb_Conv2D_layers_list) == len(output_activation_list)
@@ -146,7 +147,7 @@ def generateCNNModels(    nb_Conv2D_layers_list: list,
         current_structure.optimizer = optimizer_list[i]
         current_structure.metrics = metrics_list[i]
 
-        cnn_models.append(create_CNN_model(current_structure))
+        cnn_models.append(create_CNN_model(current_structure,image_size))
         cnn_descriptions.append(getcnnStructAsString(current_structure))
 
     return cnn_models, cnn_descriptions
