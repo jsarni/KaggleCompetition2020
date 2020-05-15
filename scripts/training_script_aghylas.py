@@ -1,8 +1,10 @@
 from ModelUtils.Models.LinearModel import *
 from ModelUtils.Models.MLP import *
 from ModelUtils.Models.CNN import *
+from ModelUtils.Models.Rsnet import *
 from ModelUtils.Models.structurer.LinearStructurer import *
 from ModelUtils.Models.structurer.CNNStructurer import *
+from ModelUtils.Models.structurer.RsnetStructurer import *
 from ModelUtils.Models.structurer.MlpStructurer import MlpStructurer
 from ModelUtils.Tester.ModelTester_aghylas import *
 from ModelUtils.Models.structurer.ModelName import *
@@ -115,11 +117,11 @@ if __name__ == '__main__':
     #     epochs = epochs * 2
     #     clear_session()
 #------------------------------------------------------------------------------------------------------------------------------------#
-    images_size = 64
-    nb_train_batches = 2
-    nb_test_batches = 1
-    epochs = 2000
-    batch_size = 2048
+    # images_size = 64
+    # nb_train_batches = 2
+    # nb_test_batches = 1
+    # epochs = 2000
+    # batch_size = 2048
     # 
     # set_random_seed(1)
     # mlp_struct = MlpStructurer()
@@ -213,61 +215,113 @@ if __name__ == '__main__':
     # test_model_batch(CNN, model, model_name_root, my_batch, images_size, nb_test_batches)
     # clear_session()
     #---------------------------------------------32X32-----------------------------------------------------------------
-    images_size = 32
-    nb_train_batches = 1
-    nb_test_batches = 1
-    epochs = 100
-    batch_size =512
-    #---------------CNN------
-    cnn_struct=CNNStructurer()
-    cnn_struct.nb_classes = 572
-    cnn_struct.nb_Conv2D_layers = 5 # nombre de couches cachées
-    cnn_struct.Conv2D_size_layers = [ (32, 3), (32, 3),(32, 3),(32, 3),(32, 3)]
-    cnn_struct.Conv2D_activation='selu'
-    cnn_struct.output_activation='softmax'
-    cnn_struct.MaxPooling2D_use=True
-    cnn_struct.MaxPooling2D_Position = [1,3]  # Positionnement des couches Max2Pooling
-    cnn_struct.MaxPooling2D_values = 3 # valeur du filtre Max2Pooling
-    cnn_struct.use_l1l2_regularisation_Convolution_layers=True
-    cnn_struct.l1_value=0.012
-    cnn_struct.l2_value=0.020
-    cnn_struct.regul_kernel_indexes=[1,4]
-    cnn_struct.loss='sparse_categorical_crossentropy'
-    cnn_struct.metrics=['sparse_categorical_accuracy']
-    cnn_struct.use_dropout=True
-    cnn_struct.dropout_indexes=[0]
-    cnn_struct.dropout_value=0.025
-    #-----------------------------------------------
-    model = create_CNN_model(cnn_struct,images_size)
-    description = getcnnStructAsString(cnn_struct)
-    #------------------------------------------------
-    #epochs=300
-    model_name_root = train_model_batch(CNN, model, description, my_batch, images_size, nb_train_batches,
-                                        nb_test_batches, validation_split, epochs, batch_size=batch_size)
-    test_model_batch(CNN, model, model_name_root, my_batch, images_size, nb_test_batches)
-    clear_session()
+
     # ---------------------------------------------64X64-----------------------------------------------------------------
+    # images_size = 64
+    # nb_train_batches = 2
+    # nb_test_batches = 1
+    # epochs = 100
+    # batch_size = 512
+    # # ---------------CNN------
+    # cnn_struct = CNNStructurer()
+    # cnn_struct.nb_classes = 572
+    # cnn_struct.nb_Conv2D_layers = 5  # nombre de couches cachées
+    # cnn_struct.Conv2D_size_layers = [(64, 3), (64, 3), (64, 3), (64, 3), (64, 3)]
+    # cnn_struct.Conv2D_activation = 'selu'
+    # cnn_struct.output_activation = 'softmax'
+    # cnn_struct.MaxPooling2D_use = True
+    # cnn_struct.MaxPooling2D_Position = [1, 3]  # Positionnement des couches Max2Pooling
+    # cnn_struct.MaxPooling2D_values = 3  # valeur du filtre Max2Pooling
+    # cnn_struct.use_l1l2_regularisation_Convolution_layers = True
+    # cnn_struct.l1_value = 0.012
+    # cnn_struct.l2_value = 0.030
+    # cnn_struct.regul_kernel_indexes = [1, 4]
+    # cnn_struct.loss = 'sparse_categorical_crossentropy'
+    # cnn_struct.metrics = ['sparse_categorical_accuracy']
+    # cnn_struct.use_dropout = True
+    # cnn_struct.dropout_indexes = [0]
+    # cnn_struct.dropout_value = 0.025
+    # # -----------------------------------------------
+    # model = create_CNN_model(cnn_struct, images_size)
+    # description = getcnnStructAsString(cnn_struct)
+    # # ------------------------------------------------
+    # # epochs=300
+    # model_name_root = train_model_batch(CNN, model, description, my_batch, images_size, nb_train_batches,
+    #                                     nb_test_batches, validation_split, epochs, batch_size=batch_size)
+    # test_model_batch(CNN, model, model_name_root, my_batch, images_size, nb_test_batches)
+    # clear_session()
+    #-------------------------------------------------------------------------------------------------------------------------
     images_size = 64
     nb_train_batches = 2
     nb_test_batches = 1
     epochs = 100
-    batch_size = 512
+    batch_size = 64
+    #----------------------------------------------------------------------------------------------------------------------------
+    #name=32_resnet34_3_20.h5;validation_split=0.2;filters=32;nb_hidden=5;kernel=(3 3);batch_size=256;input_shape=32 32 3;
+    # actication_layer=selu;out_activation=softmax;skip=True;nb_skip=2;Drop_out=True;index_dopout=[];drop_out_value=0.02;L1L2_layer=True;
+    # L1L2_out=False;L1=0.012;L2=0.01;regul_inex=[1,4];use_maxpool=True;maxpoll_index=[1,3];loss=sparse_categorical_crossentropy;optim=Adam;
+    # metrics=['sparse_categorical_accuracy'];padding=same;epochs=75
+    #-----------------------------RESNET 64x64-------------------------------------------------------------------------
+    # #---------------------------------------------128x128---------------------------------------------------------------
+
+    # ---------------RSNT------
+    rsnt=RsnetStructurer()
+    rsnt.filters=32
+    rsnt.nb_classes=572
+    rsnt.nb_hidden_layers=5
+    rsnt.kernel_size=(3,3)
+    rsnt.input_shape=(64,64,3)
+    rsnt.layers_activation='selu'
+    rsnt.output_activation='softmax'
+    rsnt.use_skip=True
+    rsnt.nb_skip=2
+    rsnt.use_dropout=True
+    rsnt.dropout_value=0.03
+    rsnt.dropout_indexes=[]
+    rsnt.use_l1l2_regularisation_hidden_layers=True
+    rsnt.use_l1l2_regularisation_output_layer=False
+    rsnt.l1_value=0.015
+    rsnt.l2_value=0.012
+    rsnt.regulization_indexes=[1,4]
+    rsnt.use_MaxPooling2D=True
+    rsnt.MaxPooling2D_position=[1,3]
+    rsnt.loss='sparse_categorical_crossentropy'
+    rsnt.metrics=['sparse_categorical_accuracy']
+    rsnt.padding='same'
+
+
+    # -----------------------------------------------
+    model = create_model_resenet34(rsnt)
+    description = getResetStructAsString(rsnt)
+    # ------------------------------------------------
+    # epochs=300
+    model_name_root = train_model_batch(RESNET34, model, description, my_batch, images_size, nb_train_batches,
+                                        nb_test_batches, validation_split, epochs, batch_size=batch_size)
+    test_model_batch(RESNET34, model, model_name_root, my_batch, images_size, nb_test_batches)
+    clear_session()
+
+    #-----------------------------32x32 7--------------------------------------
+    images_size = 128
+    nb_train_batches = 1
+    nb_test_batches = 1
+    epochs = 100
+    batch_size = 256
     # ---------------CNN------
     cnn_struct = CNNStructurer()
     cnn_struct.nb_classes = 572
-    cnn_struct.nb_Conv2D_layers = 5  # nombre de couches cachées
-    cnn_struct.Conv2D_size_layers = [(64, 3), (64, 3), (64, 3), (64, 3), (64, 3)]
-    cnn_struct.Conv2D_activation = 'selu'
-    cnn_struct.output_activation = 'softmax'
+    cnn_struct.nb_Conv2D_layers = 4  # nombre de couches cachées
+    cnn_struct.Conv2D_size_layers = [(128, 3), (128, 3), (128, 3), (128, 3)]
+    cnn_struct.Conv2D_activation = 'softmax'
+    cnn_struct.output_activation = 'selu'
     cnn_struct.MaxPooling2D_use = True
     cnn_struct.MaxPooling2D_Position = [1, 3]  # Positionnement des couches Max2Pooling
     cnn_struct.MaxPooling2D_values = 3  # valeur du filtre Max2Pooling
     cnn_struct.use_l1l2_regularisation_Convolution_layers = True
     cnn_struct.l1_value = 0.012
-    cnn_struct.l2_value = 0.030
-    cnn_struct.regul_kernel_indexes = [1, 4]
-    cnn_struct.loss = 'sparse_categorical_crossentropy'
-    cnn_struct.metrics = ['sparse_categorical_accuracy']
+    cnn_struct.l2_value = 0.040
+    cnn_struct.regul_kernel_indexes = [1]
+    cnn_struct.loss = 'categorical_crossentropy'
+    cnn_struct.metrics = ['categorical_accuracy']
     cnn_struct.use_dropout = True
     cnn_struct.dropout_indexes = [0]
     cnn_struct.dropout_value = 0.025
@@ -280,6 +334,8 @@ if __name__ == '__main__':
                                         nb_test_batches, validation_split, epochs, batch_size=batch_size)
     test_model_batch(CNN, model, model_name_root, my_batch, images_size, nb_test_batches)
     clear_session()
+
+
     # #---------------------------------------------128x128---------------------------------------------------------------
     # images_size = 128
     # nb_train_batches = 5
